@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>快速入门</title>
+		<script src="js/vuejs-2.5.16.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			{{ms}}
+			{{false?"ok":"no"}}
+			{{num*3.14}}
+
+		</div>
+	</body>
+	<script>
+		//view model
+		new Vue({
+			el:"#app",
+			data:{
+			    ms:"Hello VUE!",
+				num:100
+			}
+
+
+		});
+		
+	</script>
+</html>
