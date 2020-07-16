@@ -19,23 +19,22 @@
             if(rname) {
                 rname = window.decodeURIComponent(rname);
             }
-            alert(cid);
-            alert(rname);
-            load(cid);
+
+            load(cid,null,rname);
 
         });
 
-        function load(cid, currentPage) {
-            $.get("route/pageQuery", {cid: cid, currentPage: currentPage}, function (data) {
+        function load(cid, currentPage,rname) {
+            $.get("route/pageQuery", {cid: cid, currentPage: currentPage,rname:rname}, function (data) {
                 $("#totalPage").html(data.totalPage);
                 $("#totalCount").html(data.totalCount);
                 var lis = "";
-                var first = '<li onclick="javascript:load(' + cid + ')"><a href="javascript:void(0)">首页</a></li>'
+                var first = '<li onclick="javascript:load('+cid+',1,\''+rname+'\')"><a href="javascript:void(0)">首页</a></li>'
                 var beforeNum = data.currentPage - 1;
                 if (beforeNum <= 0) {
                     beforeNum = 1;
                 }
-                var before = '<li onclick="javascript:load(' + cid + ',' + beforeNum + ')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
+                var before = '<li onclick="javascript:load('+cid+','+beforeNum+',\''+rname+'\')" class="threeword"><a href="javascript:void(0)">上一页</a></li>';
                 lis += first;
                 lis += before;
                 var begin;
@@ -60,10 +59,11 @@
                     var li = "";
                     if (data.currentPage == i) {
 
-                        li = '<li class="curPage"  onclick="javascript:load(' + cid + ',' + i + ')"><a href="javascript:void(0)">' + i + '</a></li>';
+                        li = '<li class="curPage"  onclick="javascript:load('+cid+','+i+',\''+rname+'\')"><a href="javascript:void(0)">' + i + '</a></li>';
                     } else {
 
-                        li = '<li onclick="javascript:load(' + cid + ',' + i + ')"><a href="javascript:void(0)">' + i + '</a></li>';
+                        li = '<li onclick="javascript:load('+cid+','+i+',\''+rname+'\')"><a href="javascript:void(0)">' + i + '</a></li>';
+
                     }
                     lis += li;
 
@@ -83,10 +83,10 @@
                 if (lastNum > data.totalPage) {
                     lastNum = data.totalPage;
                 }
-                var nextPage = '<li onclick="javascript:load(' + cid + ',' + lastNum + ')" class="threeword"><a href="javascript:void(0)">下一页</a></li>';
+                var nextPage = '<li onclick="javascript:load('+cid+','+lastNum+',\''+rname+'\')" class="threeword"><a href="javascript:void(0)">下一页</a></li>';
                 var t = data.totalPage;
 
-                var lastPage = '<li onclick="javascript:load(' + cid + ',' + t + ')" class="threeword"><a href="javascript:void(0)">末页</a></li>';
+                var lastPage = '<li onclick="javascript:load('+cid+','+lastNum+',\''+rname+'\')" class="threeword"><a href="javascript:void(0)">末页</a></li>';
                 lis += nextPage;
                 lis += lastPage;
                 $("#pageNum").html(lis);
@@ -107,7 +107,7 @@
                         '                                    <span>' + route.price + '</span>\n' +
                         '                                    <span>起</span>\n' +
                         '                                </p>\n' +
-                        '                                <p><a href="route_detail.html">查看详情</a></p>\n' +
+                        '                                <p><a href="route_detail.html?rid='+route.rid+'">查看详情</a></p>\n' +
                         '                            </div>\n' +
                         '                        </li>';
                     r_lis += li;
